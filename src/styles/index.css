@@ -3,6 +3,7 @@
 
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import "tailwindcss";
+@import "./common/_font.css";
 @layer base {
   body {
     font-family: "Noto Sans TC", "PT Sans", system-ui, sans-serif;
