@@ -66,9 +66,9 @@ const ResultPage = () => {
   return (
     <main className="w-full flex flex-col items-center justify-center">
       <div
-        className={`${bgMap[category]} w-full flex flex-col justify-center items-center bg-center bg-cover bg-no-repeat pt-6 gap-80 pb-12`}
+        className={`${bgMap[category]} w-full flex flex-col justify-center items-center bg-center bg-cover bg-no-repeat pt-12 pb-12 gap-12 lg:pt-6 lg:gap-80 lg:pb-12`}
       >
-        <div className="max-w-352.5 w-full flex justify-between items-center">
+        <div className="max-w-352.5 w-full px-6 flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-0 2xl:px-0">
           <div className="flex flex-col max-w-40 text-white">
             <p className="text-[16px] font-bold leading-6">
               五大性格特質心理測驗
@@ -77,16 +77,22 @@ const ResultPage = () => {
               Big Five personality traits test
             </span>
           </div>
-          <nav className="max-w-lg w-full flex gap-12 items-center text-[16px] leading-6">
+          <nav className="w-full flex items-center text-[16px] leading-6 overflow-x-auto flex-nowrap gap-6 justify-start self-center lg:gap-12 lg:justify-end px-6 py-3 lg:px-0 lg:py-0 max-w-full lg:max-w-lg">
             {fullData.traits.zh.map((tag) => (
               <button
                 type="button"
                 key={tag}
-                className={`cursor-pointer transition-all ${
-                  category === tag
-                    ? "text-white font-bold underline underline-offset-8 decoration-[4px] decoration-[#4F61FF]"
-                    : "text-white/80 font-light hover:text-white"
-                }`}
+                className={`
+                  cursor-pointer transition-all 
+                  whitespace-nowrap
+                  shrink-0
+                  py-2
+                  ${
+                    category === tag
+                      ? "text-white font-bold underline underline-offset-8 decoration-[4px] decoration-[#4F61FF]"
+                      : "text-white/80 font-light hover:text-white"
+                  }
+                `}
                 onClick={() => setCategory(tag)}
               >
                 {tag}
@@ -94,8 +100,8 @@ const ResultPage = () => {
             ))}
           </nav>
         </div>
-        <div className="max-w-352.5 w-full">
-          <div className="max-w-202.5 w-full flex gap-18 text-white items-center">
+        <div className="max-w-352.5 w-full px-6 2xl:px-0">
+          <div className="max-w-202.5 w-full flex gap-10 text-white items-center flex-col lg:gap-18 lg:flex-row">
             <div className="flex flex-col">
               <p className="text-5xl leading-18">{currentData.data.name}</p>
               <span className="text-2xl leading-12 font-light">
@@ -108,7 +114,7 @@ const ResultPage = () => {
           </div>
         </div>
       </div>
-      <div className="max-w-352.5 w-full flex flex-col gap-40 py-12">
+      <div className="max-w-352.5 w-full flex flex-col  py-12 gap-20 px-6 2xl:gap-40 2xl:px-0">
         <div className="max-w-202.5 w-full flex flex-col gap-4 font-light">
           <p className="text-[64px] leading-24 text-[#000000DE]">
             {mockDegree === "high"
@@ -117,32 +123,45 @@ const ResultPage = () => {
               ? "中"
               : "低"}
           </p>
-          <span className="text-2xl text-[#00000098] leading-9">
+          <div className="text-lg lg:text-2xl text-[#00000098] leading-8 lg:leading-9">
             {mockDegree === "middle" ? (
               <>
-                <p className="text-2xl leading-9 font-light mb-12">你的親和性介於中間。可參考高分與低分時的說明。</p>
-                <p className="text-[16px] font-light leading-6 mb-6">
-                  <span className="font-bold">高</span>——
-                  {currentData.data.description["high"]}
+                <p className="text-lg lg:text-2xl leading-8 lg:leading-9 font-light mb-8 lg:mb-12">
+                  你的親和性介於中間。可參考高分與低分時的說明。
                 </p>
-                <p className="text-[16px] font-light leading-6">
-                  <span className="font-bold">低</span>——
-                  {currentData.data.description["low"]}
-                </p>
+                <div className="space-y-6">
+                  <div className="flex items-start text-[15px] lg:text-[16px] font-light leading-6">
+                    <span className="shrink-0 font-bold text-black mr-2">
+                      高 ——
+                    </span>
+                    <span>{currentData.data.description["high"]}</span>
+                  </div>
+                  <div className="flex items-start text-[15px] lg:text-[16px] font-light leading-6">
+                    <span className="shrink-0 font-bold text-black mr-2">
+                      低 ——
+                    </span>
+                    <span>{currentData.data.description["low"]}</span>
+                  </div>
+                </div>
               </>
             ) : (
               currentData.data.description[mockDegree]
             )}
-          </span>
+          </div>
         </div>
         <button
           type="button"
           onClick={handleNextAction}
-          className={`max-w-95 w-full h-12 text-[32px] text-[#000000DE] flex items-center gap-2 cursor-pointer self-end hover:opacity-70 transition-opacity  ${
-            currentData.isLast
-              ? "border-2 border-[#000000DE] justify-center h-24"
-              : " border-none justify-end"
-          }`}
+          className={`
+            w-full h-auto min-h-12 text-xl lg:text-[32px] text-[#000000DE] 
+            flex items-center gap-2 cursor-pointer transition-opacity hover:opacity-70         
+            justify-end lg:justify-center self-start lg:self-end
+            ${
+              currentData.isLast
+                ? "border-2 border-[#000000DE] justify-center lg:justify-center p-4 lg:h-24 lg:max-w-95"
+                : "border-none lg:max-w-95"
+            }
+          `}
         >
           {currentData.isLast ? (
             <>
