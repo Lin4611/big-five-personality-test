@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { getBigFiveTestData } from "../api/bigFive";
+import { useNavigate } from "react-router-dom";
 
 const bgMap = {
   情緒不穩定性: "bg-[url('../assets/imgs/neuroticism_pic.png')]",
@@ -13,6 +14,7 @@ const ResultPage = () => {
   const [fullData, setFullData] = useState(null);
   const [category, setCategory] = useState("情緒不穩定性");
   const mockDegree = "middle";
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +52,7 @@ const ResultPage = () => {
 
   const handleNextAction = () => {
     if (currentData.isLast) {
-      console.log("/");
+      navigate('/');
     } else {
       setCategory(currentData.nextCategory);
     }

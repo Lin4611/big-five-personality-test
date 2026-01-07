@@ -1,6 +1,7 @@
 import banner from "../assets/imgs/banner_pic.png";
 import { getBigFiveTestData } from "../api/bigFive";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 const LadingPage = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -35,15 +36,15 @@ const LadingPage = () => {
             <p className="flex-1 w-full max-w-112.5 text-[16px] leading-6 text-[#00000098] font-light text-left tracking-normal">
               {data.description}
             </p>
-            <button
-              type="button"
+            <Link
               className="max-w-82.5 shrink-0 bg-[#4F61FF] py-6 px-18.25 text-[#FFFFFF] cursor-pointer flex  items-center tracking-normal gap-2"
+              to='/quiz'
             >
               <span className="text-[20px] lg:text-[32px] leading-12">開始測驗</span>
               <span className="material-icons text-4xl lg:text-[48px]! leading-none">
                 arrow_forward
               </span>
-            </button>
+            </Link>
           </div>
         </section>
       ) : (
