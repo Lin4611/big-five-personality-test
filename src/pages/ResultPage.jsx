@@ -14,7 +14,7 @@ const ResultPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const userAnswers = location.state?.answers;
-  const { data: fullData, loading } = useBigFiveData();
+  const { data: fullData, loading, error } = useBigFiveData();
   const [category, setCategory] = useState("經驗開放性");
 
   const resultsMap = useMemo(() => {
@@ -73,12 +73,12 @@ const ResultPage = () => {
     navigate("/");
     return null;
   }
-  if (!fullData || !currentData) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        Loading Results...
-      </div>
-    );
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <ErrorInfo error={error} />;
   }
 
   return (

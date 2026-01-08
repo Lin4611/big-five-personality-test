@@ -1,18 +1,17 @@
 import banner from "../assets/imgs/banner_pic.png";
+import ErrorInfo from "../components/ErrorInfo";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { useBigFiveData } from "../hooks/useBigFiveData";
 import { Link } from "react-router-dom";
 const LadingPage = () => {
   const { data, loading, error } = useBigFiveData();
+  
   if (loading) {
-    return (
-      <main className="w-full flex justify-center items-center">
-        <p className="text-4xl text-[#00000098]">Loading...</p>
-      </main>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <p>Something went wrong</p>;
+    return <ErrorInfo error={error} />;
   }
 
   return (

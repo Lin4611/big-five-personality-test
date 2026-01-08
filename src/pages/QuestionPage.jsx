@@ -6,7 +6,7 @@ import RadioOption from "../components/RadioOption";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
-  const { data } = useBigFiveData();
+  const { data, loading, error } = useBigFiveData();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -45,12 +45,13 @@ const QuestionPage = () => {
     }
   };
 
-  if (!currentQuestion)
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        Loading Quiz...
-      </div>
-    );
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <ErrorInfo error={error} />;
+  }
 
   return (
     <main className="w-full h-screen grid grid-cols-1 lg:grid-cols-2">
