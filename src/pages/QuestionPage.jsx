@@ -46,7 +46,7 @@ const QuestionPage = () => {
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
-      navigate('/result');
+      navigate("/result", { state: { answers } });
     }
   };
 
@@ -54,7 +54,7 @@ const QuestionPage = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
   if (!currentQuestion)

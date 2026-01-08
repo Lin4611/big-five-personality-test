@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { getBigFiveTestData } from "../api/bigFive";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const bgMap = {
   情緒不穩定性: "bg-[url('../assets/imgs/neuroticism_pic.png')]",
@@ -11,10 +11,13 @@ const bgMap = {
 };
 
 const ResultPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const userAnswers = location.state?.answers;
   const [fullData, setFullData] = useState(null);
   const [category, setCategory] = useState("情緒不穩定性");
-  const mockDegree = "middle";
-  const navigate = useNavigate();
+  const [resultsMap, setResultsMap] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,9 +32,39 @@ const ResultPage = () => {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    if (!fullData) return;
+
+    if (!userAnswers) {
+      alert("請先完成測驗！");
+      navigate("/");
+    }
+  }, [fullData, userAnswers, navigate]);
+  useEffect(() => {
+    if (!fullData || !userAnswers) return;
+
+    const calculated = {};
+    const { degree, traits, problemList } = fullData;
+    traits.en.forEach((traitKey) => {
+      const traitData = problemList[traitKey];
+
+      let score = 0;
+      traitData.problems.forEach((problem) => {
+        score += userAnswers[problem.id] || 0;
+      });
+      let level = "middle";
+      if (score >= degree.high) {
+        level = "high";
+      } else if (score <= degree.low) {
+        level = "low";
+      }
+      calculated[traitKey] = level;
+      setResultsMap(calculated);
+    });
+  }, [fullData, userAnswers]);
 
   const currentData = useMemo(() => {
-    if (!fullData) return null;
+    if (!fullData || !resultsMap) return null;
 
     const list = fullData.traits.zh;
     const index = list.indexOf(category);
@@ -42,17 +75,20 @@ const ResultPage = () => {
     const nextIndex = (index + 1) % list.length;
     const nextCategoryName = list[nextIndex];
 
+    const myDegree = resultsMap[enKey];
+
     return {
       enKey,
       data: traitData,
       nextCategory: nextCategoryName,
       isLast,
+      degree: myDegree,
     };
-  }, [fullData, category]);
+  }, [fullData, category, resultsMap]);
 
   const handleNextAction = () => {
     if (currentData.isLast) {
-      navigate('/');
+      navigate("/");
     } else {
       setCategory(currentData.nextCategory);
     }
@@ -119,17 +155,17 @@ const ResultPage = () => {
       <div className="max-w-352.5 w-full flex flex-col  py-12 gap-20 px-6 2xl:gap-40 2xl:px-0">
         <div className="max-w-202.5 w-full flex flex-col gap-4 font-light">
           <p className="text-[64px] leading-24 text-[#000000DE]">
-            {mockDegree === "high"
+            {currentData.degree === "high"
               ? "高"
-              : mockDegree === "middle"
+              : currentData.degree === "middle"
               ? "中"
               : "低"}
           </p>
           <div className="text-lg lg:text-2xl text-[#00000098] leading-8 lg:leading-9">
-            {mockDegree === "middle" ? (
+            {currentData.degree === "middle" ? (
               <>
                 <p className="text-lg lg:text-2xl leading-8 lg:leading-9 font-light mb-8 lg:mb-12">
-                  你的親和性介於中間。可參考高分與低分時的說明。
+                  你的{category}介於中間。可參考高分與低分時的說明。
                 </p>
                 <div className="space-y-6">
                   <div className="flex items-start text-[15px] lg:text-[16px] font-light leading-6">
@@ -147,7 +183,7 @@ const ResultPage = () => {
                 </div>
               </>
             ) : (
-              currentData.data.description[mockDegree]
+              currentData.data.description[currentData.degree]
             )}
           </div>
         </div>
