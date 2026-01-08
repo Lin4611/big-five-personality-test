@@ -1,8 +1,8 @@
-import LandingPage from "./pages/LadingPage";
+import WebRouter from "./router/WebRouter";
 function App() {
   return (
     <>
-      <LandingPage />
+      <WebRouter />
     </>
   );
 }

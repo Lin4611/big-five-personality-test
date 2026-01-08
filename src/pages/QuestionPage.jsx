@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getBigFiveTestData } from "../api/bigFive";
 import RadioOption from "../components/RadioOption";
+import { useNavigate } from "react-router-dom";
 const flattenQuizData = (apiData) => {
   if (!apiData) return [];
   return Object.values(apiData).flatMap((trait) =>
@@ -11,6 +12,7 @@ const flattenQuizData = (apiData) => {
   );
 };
 const QuestionPage = () => {
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -43,10 +45,8 @@ const QuestionPage = () => {
   const handleNext = () => {
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
-      console.log(currentIndex, totalQuestions);
     } else {
-      console.log("submit result", answers);
-      alert("測驗結束");
+      navigate("/result", { state: { answers } });
     }
   };
 
@@ -54,7 +54,7 @@ const QuestionPage = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
     } else {
-      console.log("回到首頁");
+      navigate("/");
     }
   };
   if (!currentQuestion)
