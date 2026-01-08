@@ -1,34 +1,20 @@
-import { useEffect, useState } from "react";
-import { getBigFiveTestData } from "../api/bigFive";
-import RadioOption from "../components/RadioOption";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-const flattenQuizData = (apiData) => {
-  if (!apiData) return [];
-  return Object.values(apiData).flatMap((trait) =>
-    trait.problems.map((problem) => ({
-      ...problem,
-      categoryName: trait.name,
-    }))
-  );
-};
+import { useBigFiveData } from "../hooks/useBigFiveData";
+import { flattenQuizData } from "../utils/flattenQuizData";
+import RadioOption from "../components/RadioOption";
+
 const QuestionPage = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState([]);
+  const { data } = useBigFiveData();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getBigFiveTestData();
-        const flatData = flattenQuizData(result.problemList);
-        setQuestions(flatData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const questions = useMemo(() => {
+    if (!data?.problemList) return [];
+    return flattenQuizData(data.problemList);
+  }, [data]);
 
   const currentQuestion = questions[currentIndex];
   const currentAnswerValue = currentQuestion
@@ -42,6 +28,7 @@ const QuestionPage = () => {
       [currentQuestion.id]: score,
     }));
   };
+
   const handleNext = () => {
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -57,12 +44,14 @@ const QuestionPage = () => {
       navigate("/");
     }
   };
+
   if (!currentQuestion)
     return (
       <div className="w-full h-screen flex justify-center items-center">
         Loading Quiz...
       </div>
     );
+
   return (
     <main className="w-full h-screen grid grid-cols-1 lg:grid-cols-2">
       <div className="w-full relative bg-[#4F61FF]/8 flex flex-col-reverse gap-10 px-6 pb-10 pt-10 lg:flex-col lg:gap-112.25 lg:pt-60 lg:px-24 lg:pb-10 lg:h-full">
