@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import LandingPage from "../pages/LadingPage";
+import LandingPage from "../pages/landing/index";
 import QuestionPage from "../pages/QuestionPage";
 import ResultPage from "../pages/ResultPage";
 const WebRouter = () => {
