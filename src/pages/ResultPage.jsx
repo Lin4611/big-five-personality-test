@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { getBigFiveTestData } from "../api/bigFive";
+import { useMemo, useState } from "react";
+import { useBigFiveData } from "../hooks/useBigFiveData";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const bgMap = {
@@ -14,53 +14,29 @@ const ResultPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const userAnswers = location.state?.answers;
-  const [fullData, setFullData] = useState(null);
-  const [category, setCategory] = useState("情緒不穩定性");
-  const [resultsMap, setResultsMap] = useState(null);
+  const { data: fullData, loading, error } = useBigFiveData();
+  const [category, setCategory] = useState("經驗開放性");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getBigFiveTestData();
-        setFullData(result);
-        if (result && result.traits && result.traits.zh.length > 0) {
-          setCategory(result.traits.zh[0]);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    if (!fullData) return;
-
-    if (!userAnswers) {
-      alert("請先完成測驗！");
-      navigate("/");
-    }
-  }, [fullData, userAnswers, navigate]);
-  useEffect(() => {
-    if (!fullData || !userAnswers) return;
+  const resultsMap = useMemo(() => {
+    if (!fullData || !userAnswers) return null;
 
     const calculated = {};
     const { degree, traits, problemList } = fullData;
+
     traits.en.forEach((traitKey) => {
       const traitData = problemList[traitKey];
-
       let score = 0;
+
       traitData.problems.forEach((problem) => {
         score += userAnswers[problem.id] || 0;
       });
-      let level = "middle";
-      if (score >= degree.high) {
-        level = "high";
-      } else if (score <= degree.low) {
-        level = "low";
-      }
-      calculated[traitKey] = level;
-      setResultsMap(calculated);
+
+      if (score >= degree.high) calculated[traitKey] = "high";
+      else if (score <= degree.low) calculated[traitKey] = "low";
+      else calculated[traitKey] = "middle";
     });
+
+    return calculated;
   }, [fullData, userAnswers]);
 
   const currentData = useMemo(() => {
@@ -93,12 +69,16 @@ const ResultPage = () => {
       setCategory(currentData.nextCategory);
     }
   };
-  if (!fullData || !currentData) {
-    return (
-      <div className="w-full h-screen flex justify-center items-center">
-        Loading Results...
-      </div>
-    );
+  if (!loading && !userAnswers) {
+    navigate("/");
+    return null;
+  }
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <ErrorInfo error={error} />;
   }
 
   return (
@@ -141,7 +121,7 @@ const ResultPage = () => {
         <div className="max-w-352.5 w-full px-6 2xl:px-0">
           <div className="max-w-202.5 w-full flex gap-10 text-white items-center flex-col lg:gap-18 lg:flex-row">
             <div className="flex flex-col">
-              <p className="text-5xl leading-18">{currentData.data.name}</p>
+              <p className="text-5xl leading-18">{category}</p>
               <span className="text-2xl leading-12 font-light">
                 {currentData.enKey}
               </span>

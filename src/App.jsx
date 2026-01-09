@@ -1,9 +1,10 @@
 import WebRouter from "./router/WebRouter";
+import { BigFiveProvider } from "./context/BigFiveProvider";
 function App() {
   return (
-    <>
-      <WebRouter />
-    </>
+      <BigFiveProvider>
+        <WebRouter />
+      </BigFiveProvider>
   );
 }
 
