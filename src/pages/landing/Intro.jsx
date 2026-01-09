@@ -11,7 +11,7 @@ const Intro = ({description}) => {
         to="/quiz"
       >
         <span className="text-[20px] lg:text-[32px] leading-12">開始測驗</span>
-        <span className="material-icons text-4xl lg:text-[48px]! leading-none">
+        <span className="material-icons text-4xl! lg:text-[48px]! leading-none">
           arrow_forward
         </span>
       </Link>
