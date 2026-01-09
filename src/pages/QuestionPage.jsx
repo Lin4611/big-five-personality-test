@@ -2,8 +2,9 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBigFiveData } from "../hooks/useBigFiveData";
 import { flattenQuizData } from "../utils/flattenQuizData";
-import RadioOption from "../components/RadioOption";
-
+import RadioOption from "./question/RadioOption";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorInfo from "../components/ErrorInfo";
 const QuestionPage = () => {
   const navigate = useNavigate();
   const { data, loading, error } = useBigFiveData();
