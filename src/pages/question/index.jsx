@@ -62,8 +62,8 @@ const QuestionPage = () => {
   }
 
   return (
-    <main className="w-full h-screen grid grid-cols-1 lg:grid-cols-2">
-      <div className="w-full relative bg-[#4F61FF]/8  flex flex-col-reverse gap-10 px-6 py-20 lg:h-screen lg:flex-col lg:justify-between lg:pt-60 lg:px-24 lg:pb-10">
+    <main className="w-full h-screen grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
+      <div className="w-full h-full relative bg-[#4F61FF]/8  flex flex-col-reverse gap-10 px-6 py-20 items-start justify-center lg:flex-col lg:justify-between lg:pt-60 lg:px-24 lg:pb-10">
         <BackBtn onClick={handleBack} />
         <Title text={currentQuestion.problem} />
         <TitleLabel
@@ -71,7 +71,7 @@ const QuestionPage = () => {
           en={data.name["en"].split("(")[0]}
         />
       </div>
-      <div className="w-full flex flex-col relative gap-10 pb-20  lg:h-screen lg:justify-end lg:gap-33 lg:pb-0">
+      <div className="w-full h-full flex flex-col relative gap-10 lg:justify-end lg:gap-33">
         <Progress current={currentIndex + 1} total={totalQuestions} />
         <Options
           questionId={currentQuestion.id}
