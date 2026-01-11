@@ -11,6 +11,8 @@ import Options from "./Options";
 import NextBtn from "./NextBtn";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ErrorInfo from "../../components/ErrorInfo";
+import Meta from "../../components/Meta";
+import { META } from "../../config/metaConfig";
 
 const QuestionPage = () => {
   const navigate = useNavigate();
@@ -54,38 +56,51 @@ const QuestionPage = () => {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <>
+        <Meta {...META.question} />
+        <LoadingSpinner />
+      </>
+    );
   }
 
   if (error) {
-    return <ErrorInfo error={error} />;
+    return (
+      <>
+        <Meta {...META.question} />
+        <ErrorInfo error={error} />
+      </>
+    );
   }
 
   return (
-    <main className="w-full h-screen grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
-      <div className="w-full h-full relative bg-[#4F61FF]/8  flex flex-col-reverse gap-10 px-6 py-20 items-start justify-center lg:flex-col lg:justify-between lg:pt-60 lg:px-24 lg:pb-10">
-        <BackBtn onClick={handleBack} />
-        <Title text={currentQuestion.problem} />
-        <TitleLabel
-          zh={data.name["zh"].split("(")[0]}
-          en={data.name["en"].split("(")[0]}
-        />
-      </div>
-      <div className="w-full h-full flex flex-col relative gap-10 lg:justify-end lg:gap-33">
-        <Progress current={currentIndex + 1} total={totalQuestions} />
-        <Options
-          questionId={currentQuestion.id}
-          options={currentQuestion.options}
-          onChange={handleOptionChange}
-          currentAnswerValue={currentAnswerValue}
-        />
-        <NextBtn
-          currentAnswerValue={currentAnswerValue}
-          onClick={handleNext}
-          isLast={currentIndex === totalQuestions - 1}
-        />
-      </div>
-    </main>
+    <>
+      <Meta {...META.question} />
+      <main className="w-full h-screen grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2">
+        <div className="w-full h-full relative bg-[#4F61FF]/8  flex flex-col-reverse gap-10 px-6 py-20 items-start justify-center lg:flex-col lg:justify-between lg:pt-60 lg:px-24 lg:pb-10">
+          <BackBtn onClick={handleBack} />
+          <Title text={currentQuestion.problem} />
+          <TitleLabel
+            zh={data.name["zh"].split("(")[0]}
+            en={data.name["en"].split("(")[0]}
+          />
+        </div>
+        <div className="w-full h-full flex flex-col relative gap-10 lg:justify-end lg:gap-33">
+          <Progress current={currentIndex + 1} total={totalQuestions} />
+          <Options
+            questionId={currentQuestion.id}
+            options={currentQuestion.options}
+            onChange={handleOptionChange}
+            currentAnswerValue={currentAnswerValue}
+          />
+          <NextBtn
+            currentAnswerValue={currentAnswerValue}
+            onClick={handleNext}
+            isLast={currentIndex === totalQuestions - 1}
+          />
+        </div>
+      </main>
+    </>
   );
 };
 export default QuestionPage;
