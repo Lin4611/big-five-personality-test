@@ -7,9 +7,11 @@ import TraitTabs from "./TraitTabs";
 import TraitSummary from "./TraitSummary";
 import Desc from "./Desc";
 import NextTraitBtn from "./NextTraitBtn";
-
 import LoadingSpinner from "../../components/LoadingSpinner";
 import ErrorInfo from "../../components/ErrorInfo";
+
+import { useCurrentTrait } from "./useCurrentTrait";
+import { calculateBigFiveScores } from "./util";
 
 const bgMap = {
   情緒不穩定性: "bg-[url('/src/assets/imgs/neuroticism_pic.png')]",
@@ -29,49 +31,10 @@ const ResultPage = () => {
   const [category, setCategory] = useState("經驗開放性");
 
   const resultsMap = useMemo(() => {
-    if (!fullData || !userAnswers) return null;
-
-    const calculated = {};
-    const { degree, traits, problemList } = fullData;
-
-    traits.en.forEach((traitKey) => {
-      const traitData = problemList[traitKey];
-      let score = 0;
-
-      traitData.problems.forEach((problem) => {
-        score += userAnswers[problem.id] || 0;
-      });
-
-      if (score >= degree.high) calculated[traitKey] = "high";
-      else if (score <= degree.low) calculated[traitKey] = "low";
-      else calculated[traitKey] = "middle";
-    });
-
-    return calculated;
+    return calculateBigFiveScores(fullData, userAnswers);
   }, [fullData, userAnswers]);
 
-  const currentData = useMemo(() => {
-    if (!fullData || !resultsMap) return null;
-
-    const list = fullData.traits.zh;
-    const index = list.indexOf(category);
-    const isLast = index === list.length - 1;
-
-    const enKey = fullData.traits.en[index];
-    const traitData = fullData.problemList[enKey];
-    const nextIndex = (index + 1) % list.length;
-    const nextCategoryName = list[nextIndex];
-
-    const myDegree = resultsMap[enKey];
-
-    return {
-      enKey,
-      data: traitData,
-      nextCategory: nextCategoryName,
-      isLast,
-      degree: myDegree,
-    };
-  }, [fullData, category, resultsMap]);
+  const currentData = useCurrentTrait(fullData, resultsMap, category);
 
   const handleNextAction = () => {
     if (currentData.isLast) {
