@@ -11,15 +11,11 @@
 
 🎨 設計稿來源：[Adobe XD Design Link](https://xd.adobe.com/view/ccc4dd9e-4b8f-4491-4754-4049282e0d7a-baf5/grid/)
 
-## ✨ 功能特色 | Features
+## 🧩 網頁介紹 | Overview
 
-- 📝 五大人格特質心理測驗（Big Five）
-- 🔁 結果頁可切換不同人格分類
-- 📊 作答結果分析（高 / 中 / 低）
-- 📱 響應式設計（Mobile / Tablet / Desktop）
-- 🧠 分離「計算邏輯」與「畫面呈現」
-- 🧩 Context + Custom Hooks 管理資料
-- 🏷️ 每頁獨立 Meta（title / description / og）
+本網站為一個五大人格特質（Big Five）心理測驗應用。
+
+使用者將依序完成測驗題目，系統會根據作答結果計算各人格向度的分數，並於結果頁中呈現每一項特質的分析（高 / 中 / 低）。
 
 ---
 
