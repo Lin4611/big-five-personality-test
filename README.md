@@ -9,8 +9,7 @@
 
 本專案著重於 **資料流設計、元件拆分與可維護的前端架構**。
 
-🎨 設計稿（Adobe XD）：  
-https://xd.adobe.com/view/ccc4dd9e-4b8f-4491-4754-4049282e0d7a-baf5/grid/
+🎨 設計稿來源：[Adobe XD Design Link](https://xd.adobe.com/view/ccc4dd9e-4b8f-4491-4754-4049282e0d7a-baf5/grid/)
 
 ---
 
