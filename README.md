@@ -19,6 +19,12 @@
 
 ---
 
+## 👀 專案預覽 | Project Preview
+
+![首頁](./public/landing_pic.png)
+![測驗頁面](./public/question_pic.png)
+![測驗結果](./public/result_pic.png)
+
 ## 📂 專案架構 | Project Structure
 
 ```text
