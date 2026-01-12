@@ -1,4 +1,4 @@
-const NextTraitBtn = ({onClick, isLast, nextCategory}) => {
+const NextTraitBtn = ({ onClick, isLast, nextCategory }) => {
   return (
     <button
       type="button"

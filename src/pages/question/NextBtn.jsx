@@ -1,4 +1,4 @@
-const NextBtn = ({currentAnswerValue,onClick, isLast}) => {
+const NextBtn = ({ currentAnswerValue, onClick, isLast }) => {
   return (
     <button
       type="button"
