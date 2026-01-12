@@ -1,4 +1,4 @@
-const TraitTabs = ({traits,category,onClick}) => {
+const TraitTabs = ({ traits, category, onClick }) => {
   return (
     <nav className="w-full flex items-center text-[16px] leading-6 overflow-x-auto cursor-grab flex-nowrap gap-6 justify-start self-center lg:gap-12 lg:justify-end px-6 py-3 lg:px-0 lg:py-0 max-w-full lg:max-w-lg">
       {traits.zh.map((tag) => (

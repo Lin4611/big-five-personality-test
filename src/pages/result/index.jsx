@@ -54,7 +54,11 @@ const ResultPage = () => {
   if (loading) {
     return (
       <>
-        <Meta {...META.result} key={category} title={`測驗結果：${category} | Big Five Test`} />
+        <Meta
+          {...META.result}
+          key={category}
+          title={`測驗結果：${category} | Big Five Test`}
+        />
         <LoadingSpinner />
       </>
     );
@@ -63,7 +67,11 @@ const ResultPage = () => {
   if (error) {
     return (
       <>
-        <Meta {...META.result} key={category} title={`測驗結果：${category} | Big Five Test`} />
+        <Meta
+          {...META.result}
+          key={category}
+          title={`測驗結果：${category} | Big Five Test`}
+        />
         <ErrorInfo error={error} />
       </>
     );
@@ -71,7 +79,11 @@ const ResultPage = () => {
 
   return (
     <>
-      <Meta key={category} {...META.result} title={`測驗結果：${category} | Big Five Test`} />
+      <Meta
+        key={category}
+        {...META.result}
+        title={`測驗結果：${category} | Big Five Test`}
+      />
       <main className="w-full flex flex-col items-center justify-center">
         <div
           className={`${bgMap[category]} w-full flex flex-col justify-center items-center bg-center bg-cover bg-no-repeat pt-12 pb-12 gap-12 lg:pt-6 lg:gap-80 lg:pb-12`}

@@ -1,4 +1,4 @@
-const Title = ({text}) => {
+const Title = ({ text }) => {
   return (
     <div className="flex flex-col gap-4">
       <span className="text-[60px] leading-15  text-[#000000DE] font-PTSans italic lg:text-[120px] lg:leading-30">
