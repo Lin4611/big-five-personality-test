@@ -1,4 +1,4 @@
-const BackBtn = ({onClick}) => {
+const BackBtn = ({ onClick }) => {
   return (
     <>
       <button

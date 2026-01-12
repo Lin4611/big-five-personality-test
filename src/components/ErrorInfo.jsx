@@ -1,4 +1,4 @@
-const ErrorInfo = ({error}) => {
+const ErrorInfo = ({ error }) => {
   return (
     <main className="w-full h-screen flex flex-col justify-center items-center gap-4">
       <p className="text-xl text-[#00000098] font-bold">
